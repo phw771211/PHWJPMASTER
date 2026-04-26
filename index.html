@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>日本語 Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=DM+Mono:wght@400;500&family=Sora:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d0d0f;--surface:#16161a;--surface2:#1e1e24;--surface3:#26262e;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);
+  --text:#f0f0f0;--text2:#9090a0;--text3:#5a5a6a;
+  --accent:#7c6af7;--accent2:#5dd4b0;--accent3:#f7a25d;--accent4:#f75d8e;
+  --r:14px;--r-sm:8px;
+  --font:'Sora',sans-serif;--font-jp:'Noto Sans JP',sans-serif;--font-mono:'DM Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--font);}
+body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;}
+.header{padding:52px 20px 14px;background:linear-gradient(180deg,rgba(124,106,247,0.12) 0%,transparent 100%);border-bottom:0.5px solid var(--border);}
+.header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+.app-title{font-size:11px;font-weight:600;letter-spacing:0.12em;color:var(--accent);text-transform:uppercase;font-family:var(--font-mono);}
+.app-date{font-size:11px;color:var(--text3);font-family:var(--font-mono);}
+.header-main{font-size:22px;font-weight:600;color:var(--text);font-family:var(--font-jp);}
+.header-sub{font-size:12px;color:var(--text2);margin-top:2px;}
+.nav{display:flex;background:var(--surface);border-bottom:0.5px solid var(--border);overflow-x:auto;-ms-overflow-style:none;scrollbar-width:none;flex-shrink:0;}
+.nav::-webkit-scrollbar{display:none;}
+.nav-btn{flex:1;min-width:64px;padding:10px 4px 9px;border:none;background:none;color:var(--text3);font-family:var(--font);font-size:9px;font-weight:600;letter-spacing:0.04em;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;transition:color 0.2s;position:relative;}
+.nav-btn.active{color:var(--accent);}
+.nav-btn.active::after{content:'';position:absolute;bottom:0;left:20%;right:20%;height:2px;background:var(--accent);border-radius:1px;}
+.nav-icon{font-size:16px;line-height:1;}
+.content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.page{display:none;padding:16px;}
+.page.active{display:block;}
+.card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:10px;}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.card-title{font-size:13px;font-weight:600;color:var(--text);}
+.badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:20px;font-family:var(--font-mono);}
+.badge-purple{background:rgba(124,106,247,0.15);color:var(--accent);}
+.badge-teal{background:rgba(93,212,176,0.15);color:var(--accent2);}
+.badge-amber{background:rgba(247,162,93,0.15);color:var(--accent3);}
+.badge-pink{background:rgba(247,93,142,0.15);color:var(--accent4);}
+.badge-gray{background:rgba(255,255,255,0.07);color:var(--text3);}
+.section-label{font-size:10px;font-weight:600;letter-spacing:0.1em;color:var(--text3);text-transform:uppercase;margin-bottom:8px;}
+.phase-btn{flex-shrink:0;padding:7px 14px;border-radius:20px;border:0.5px solid var(--border2);background:none;color:var(--text2);font-size:12px;font-family:var(--font);font-weight:600;cursor:pointer;transition:all 0.2s;}
+.phase-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+.prog-track{height:4px;background:var(--surface3);border-radius:2px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:2px;transition:width 0.4s ease;}
+.check-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r-sm);padding:10px 12px;display:flex;align-items:flex-start;gap:8px;cursor:pointer;transition:all 0.2s;}
+.check-card.done{border-color:rgba(93,212,176,0.4);background:rgba(93,212,176,0.06);}
+.check-box{width:16px;height:16px;border-radius:4px;border:1.5px solid var(--border2);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.check-card.done .check-box{background:var(--accent2);border-color:var(--accent2);}
+.check-tick{width:8px;height:5px;border-left:1.5px solid #fff;border-bottom:1.5px solid #fff;transform:rotate(-45deg) translate(1px,-1px);display:none;}
+.check-card.done .check-tick{display:block;}
+.check-label{font-size:11px;color:var(--text2);line-height:1.4;}
+.check-card.done .check-label{color:var(--accent2);}
+.tip{background:rgba(93,212,176,0.08);border-left:2px solid var(--accent2);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:10px 12px;margin-top:8px;}
+.tip p{font-size:12px;color:rgba(93,212,176,0.9);line-height:1.6;}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface3);border:0.5px solid var(--border2);border-radius:20px;padding:8px 18px;font-size:12px;color:var(--accent2);font-weight:600;opacity:0;transition:all 0.3s;pointer-events:none;z-index:100;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ---- DAILY PAGE ---- */
+.daily-hero{background:linear-gradient(135deg,rgba(124,106,247,0.2),rgba(93,212,176,0.1));border:0.5px solid rgba(124,106,247,0.25);border-radius:var(--r);padding:16px;margin-bottom:12px;}
+.daily-hero-label{font-size:10px;font-weight:600;letter-spacing:0.1em;color:var(--accent);text-transform:uppercase;margin-bottom:4px;}
+.daily-hero-date{font-size:20px;font-weight:600;font-family:var(--font-jp);}
+.daily-hero-sub{font-size:12px;color:var(--text2);margin-top:2px;}
+.daily-word-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);padding:16px;margin-bottom:8px;cursor:pointer;transition:border-color 0.2s;}
+.daily-word-card.seen{border-color:rgba(93,212,176,0.35);}
+.daily-word-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;}
+.daily-word-jp{font-size:32px;font-family:var(--font-jp);font-weight:400;color:var(--text);line-height:1;}
+.daily-word-meta{display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
+.daily-word-reading{font-size:12px;color:var(--text3);font-family:var(--font-mono);margin-bottom:2px;}
+.daily-word-zh{font-size:14px;color:var(--text2);margin-bottom:8px;}
+.daily-example{background:var(--surface2);border-radius:var(--r-sm);padding:10px 12px;}
+.daily-example-jp{font-size:13px;font-family:var(--font-jp);color:var(--text);line-height:1.6;margin-bottom:3px;}
+.daily-example-zh{font-size:11px;color:var(--text3);line-height:1.5;}
+.daily-example-tag{font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;background:rgba(247,162,93,0.12);color:var(--accent3);margin-bottom:6px;display:inline-block;}
+.seen-badge{font-size:10px;padding:2px 8px;border-radius:10px;background:rgba(93,212,176,0.12);color:var(--accent2);font-weight:600;}
+
+/* ---- JLPT LIST PAGE ---- */
+.jlpt-filters{display:flex;gap:6px;margin-bottom:12px;}
+.jlpt-search{width:100%;background:var(--surface);border:0.5px solid var(--border2);border-radius:var(--r-sm);padding:9px 13px;font-size:13px;color:var(--text);font-family:var(--font);margin-bottom:10px;outline:none;}
+.jlpt-search::placeholder{color:var(--text3);}
+.jlpt-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r-sm);margin-bottom:6px;}
+.jlpt-row.encountered{border-color:rgba(124,106,247,0.3);background:rgba(124,106,247,0.04);}
+.jlpt-jp{font-size:20px;font-family:var(--font-jp);min-width:56px;color:var(--text);}
+.jlpt-info{flex:1;}
+.jlpt-reading{font-size:11px;color:var(--text3);font-family:var(--font-mono);}
+.jlpt-zh{font-size:13px;color:var(--text2);}
+.jlpt-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px;}
+.encounter-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block;margin-right:2px;}
+.encounter-count{font-size:10px;font-family:var(--font-mono);color:var(--accent);}
+
+/* ---- VOCAB PAGE ---- */
+.vocab-cats{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;padding-bottom:2px;}
+.cat-btn{flex-shrink:0;padding:5px 12px;border-radius:20px;border:0.5px solid var(--border2);background:none;color:var(--text3);font-size:11px;font-family:var(--font);cursor:pointer;transition:all 0.2s;}
+.cat-btn.active{background:var(--surface3);border-color:var(--border2);color:var(--text);}
+.vocab-row{display:flex;align-items:center;gap:10px;padding:11px 13px;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r-sm);margin-bottom:5px;cursor:pointer;}
+.vocab-row.flipped{background:var(--surface2);}
+.vocab-jp{font-size:20px;font-family:var(--font-jp);color:var(--text);min-width:60px;}
+.vocab-info{flex:1;}
+.vocab-reading{font-size:11px;color:var(--text3);font-family:var(--font-mono);}
+.vocab-zh{font-size:13px;color:var(--text2);}
+
+/* ---- TRACKER PAGE ---- */
+.month-pick{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.month-pick select{flex:1;background:var(--surface);border:0.5px solid var(--border2);border-radius:var(--r-sm);padding:9px 12px;font-size:13px;color:var(--text);font-family:var(--font);outline:none;-webkit-appearance:none;}
+.save-btn{padding:9px 16px;background:var(--accent);border:none;border-radius:var(--r-sm);color:#fff;font-size:12px;font-family:var(--font);font-weight:600;cursor:pointer;white-space:nowrap;}
+.checks-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px;}
+.stars-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.star-card{background:var(--surface);border-radius:var(--r-sm);padding:12px;}
+.star-dim{font-size:11px;color:var(--text3);margin-bottom:6px;}
+.stars{display:flex;gap:4px;}
+.star-dot{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border2);cursor:pointer;transition:all 0.15s;display:flex;align-items:center;justify-content:center;}
+.star-dot.lit{background:var(--accent3);border-color:var(--accent3);}
+.star-val{font-size:18px;font-weight:600;color:var(--text);margin-top:4px;font-family:var(--font-mono);}
+.note-input{width:100%;background:var(--surface);border:0.5px solid var(--border2);border-radius:var(--r-sm);padding:10px 12px;font-size:13px;color:var(--text);font-family:var(--font-jp);resize:none;min-height:60px;outline:none;margin-bottom:12px;line-height:1.6;}
+.note-input::placeholder{color:var(--text3);}
+.history-row{background:var(--surface);border-radius:var(--r-sm);padding:10px 12px;display:flex;align-items:center;gap:10px;margin-bottom:5px;}
+.hist-month{font-size:12px;font-weight:600;color:var(--text2);font-family:var(--font-mono);min-width:52px;}
+.hist-bars{display:flex;gap:3px;align-items:flex-end;}
+.hist-bar{width:10px;border-radius:2px;}
+.hist-note{font-size:11px;color:var(--text3);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+/* ---- KANA PAGE ---- */
+.kana-cell{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r-sm);padding:8px 4px 6px;text-align:center;cursor:pointer;transition:border-color 0.15s;min-width:52px;}
+.kana-cell.weak{border-color:rgba(247,93,142,0.4);background:rgba(247,93,142,0.05);}
+.kana-cell.strong{border-color:rgba(93,212,176,0.4);background:rgba(93,212,176,0.05);}
+.kana-char{font-size:22px;font-family:var(--font-jp);color:var(--text);line-height:1;}
+.kana-rom{font-size:10px;color:var(--text3);font-family:var(--font-mono);margin-top:3px;}
+.opt-btn{padding:18px 8px;background:var(--surface);border:0.5px solid var(--border2);border-radius:var(--r-sm);color:var(--text);font-size:22px;font-family:var(--font-jp);cursor:pointer;transition:all 0.15s;text-align:center;}
+.opt-btn .opt-rom{font-size:10px;color:var(--text3);font-family:var(--font-mono);margin-top:3px;}
+.opt-btn.correct{border-color:var(--accent2);background:rgba(93,212,176,0.12);color:var(--accent2);}
+.opt-btn.wrong{border-color:var(--accent4);background:rgba(247,93,142,0.12);color:var(--accent4);}
+.opt-btn:disabled{cursor:default;}
+.group-toggle{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r-sm);padding:9px 10px;cursor:pointer;display:flex;align-items:center;gap:7px;transition:border-color 0.15s;}
+.group-toggle.on{border-color:rgba(124,106,247,0.5);background:rgba(124,106,247,0.08);}
+
+/* ---- RESOURCES PAGE ---- */
+.resource-item{display:flex;gap:12px;padding:12px 0;border-bottom:0.5px solid var(--border);}
+.resource-item:last-child{border-bottom:none;}
+.res-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+.res-name{font-size:14px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.res-desc{font-size:12px;color:var(--text2);line-height:1.5;margin-bottom:3px;}
+.res-link{font-size:11px;color:var(--accent);text-decoration:none;font-family:var(--font-mono);}
+.res-tag{font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;display:inline-block;margin-right:4px;margin-bottom:3px;}
+.tag-free{background:rgba(93,212,176,0.15);color:var(--accent2);}
+.tag-paid{background:rgba(247,162,93,0.15);color:var(--accent3);}
+.tag-book{background:rgba(124,106,247,0.15);color:var(--accent);}
+
+/* ---- PLAN PAGE ---- */
+.today-banner{background:linear-gradient(135deg,rgba(124,106,247,0.2),rgba(93,212,176,0.1));border:0.5px solid rgba(124,106,247,0.3);border-radius:var(--r);padding:14px 16px;margin-bottom:12px;}
+.today-label{font-size:10px;font-weight:600;letter-spacing:0.1em;color:var(--accent);text-transform:uppercase;margin-bottom:6px;}
+.today-task{font-size:12px;color:var(--text2);display:flex;align-items:center;gap:6px;margin-bottom:4px;}
+.today-task::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--accent2);flex-shrink:0;}
+.daily-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.daily-block{background:var(--surface2);border-radius:var(--r-sm);padding:12px;}
+.daily-min{font-size:26px;font-weight:600;color:var(--text);font-family:var(--font-mono);}
+.daily-unit{font-size:10px;color:var(--text3);margin-bottom:4px;}
+.daily-label{font-size:12px;color:var(--accent2);font-weight:600;margin-bottom:2px;}
+.daily-detail{font-size:11px;color:var(--text3);line-height:1.4;}
+.task-item{display:flex;gap:10px;padding:9px 0;border-bottom:0.5px solid var(--border);}
+.task-item:last-child{border-bottom:none;}
+.task-dot{width:6px;height:6px;border-radius:50%;margin-top:6px;flex-shrink:0;}
+.task-text{font-size:13px;color:var(--text2);line-height:1.5;}
+.task-text strong{color:var(--text);font-weight:600;}
+.prog-wrap{margin-bottom:8px;}
+.prog-meta{display:flex;justify-content:space-between;margin-bottom:4px;}
+.prog-label{font-size:12px;color:var(--text2);}
+.prog-note{font-size:11px;color:var(--text3);}
+.phase-selector{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px;}
+.phase-content{display:none;}
+.phase-content.active{display:block;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <span class="app-title">日本語 Study</span>
+    <span class="app-date" id="today-date"></span>
+  </div>
+  <div class="header-main">學習追蹤 📚</div>
+  <div class="header-sub">N5 → N4 → N3 → N2</div>
+</div>
+
+<nav class="nav">
+  <button class="nav-btn active" onclick="showPage('daily',this)"><span class="nav-icon">☀</span>每日</button>
+  <button class="nav-btn" onclick="showPage('jlpt',this)"><span class="nav-icon">📋</span>單字表</button>
+  <button class="nav-btn" onclick="showPage('kana',this)"><span class="nav-icon">あ</span>假名</button>
+  <button class="nav-btn" onclick="showPage('tracker',this)"><span class="nav-icon">📊</span>追蹤</button>
+  <button class="nav-btn" onclick="showPage('plan',this)"><span class="nav-icon">🗺</span>計畫</button>
+  <button class="nav-btn" onclick="showPage('resources',this)"><span class="nav-icon">🔗</span>資源</button>
+</nav>
+
+<div class="content">
+
+<!-- ========== DAILY PAGE ========== -->
+<div id="page-daily" class="page active">
+  <div class="daily-hero">
+    <div class="daily-hero-label">今日單字</div>
+    <div class="daily-hero-date" id="daily-title"></div>
+    <div class="daily-hero-sub" id="daily-subtitle"></div>
+  </div>
+  <div id="daily-list"></div>
+</div>
+
+<!-- ========== JLPT LIST PAGE ========== -->
+<div id="page-jlpt" class="page">
+  <div class="jlpt-filters">
+    <button class="phase-btn active" onclick="setJlptLevel('all',this)">全部</button>
+    <button class="phase-btn" onclick="setJlptLevel('N5',this)">N5</button>
+    <button class="phase-btn" onclick="setJlptLevel('N4',this)">N4</button>
+    <button class="phase-btn" onclick="setJlptLevel('N3',this)">N3</button>
+    <button class="phase-btn" onclick="setJlptLevel('seen',this)">已遇過</button>
+  </div>
+  <input type="text" class="jlpt-search" id="jlpt-search" placeholder="搜尋單字..." oninput="renderJlpt()">
+  <div style="font-size:12px;color:var(--text3);margin-bottom:10px;" id="jlpt-count"></div>
+  <div id="jlpt-list"></div>
+</div>
+
+<!-- ========== KANA PAGE ========== -->
+<div id="page-kana" class="page">
+  <div style="display:flex;gap:6px;margin-bottom:14px;">
+    <button class="phase-btn active" id="kana-tab-quiz" onclick="kanaTab('quiz',this)">測驗練習</button>
+    <button class="phase-btn" id="kana-tab-chart" onclick="kanaTab('chart',this)">假名總表</button>
+  </div>
+  <div id="kana-quiz-section">
+    <div id="kana-setup">
+      <div class="card" style="margin-bottom:10px;">
+        <div class="card-header"><span class="card-title">測驗設定</span></div>
+        <div class="section-label" style="margin-bottom:8px;">選擇範圍</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px;" id="kana-group-grid"></div>
+        <div class="section-label" style="margin-bottom:8px;">測驗模式</div>
+        <div style="display:flex;gap:6px;margin-bottom:12px;">
+          <button class="phase-btn active" id="mode-btn-read" onclick="setMode('read',this)">看假名答讀音</button>
+          <button class="phase-btn" id="mode-btn-write" onclick="setMode('write',this)">看讀音選假名</button>
+        </div>
+        <div class="check-card" id="weak-toggle" onclick="toggleWeak()">
+          <div class="check-box"><div class="check-tick"></div></div>
+          <div class="check-label">優先練習弱點假名（錯誤率高的排前面）</div>
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:12px;">
+        <div class="card-header"><span class="card-title">學習進度</span><span class="badge badge-purple" id="kana-progress-badge">0 / 0</span></div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;" id="kana-progress-dots"></div>
+      </div>
+      <button onclick="startQuiz()" style="width:100%;padding:14px;background:var(--accent);border:none;border-radius:var(--r);color:#fff;font-size:15px;font-weight:600;font-family:var(--font);cursor:pointer;">開始測驗</button>
+    </div>
+    <div id="kana-active" style="display:none;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <button onclick="endQuiz()" style="background:none;border:0.5px solid var(--border2);border-radius:var(--r-sm);padding:6px 12px;color:var(--text2);font-size:12px;font-family:var(--font);cursor:pointer;">← 結束</button>
+        <div style="font-family:var(--font-mono);font-size:12px;color:var(--text3);" id="quiz-counter">0/0</div>
+        <div style="font-family:var(--font-mono);font-size:12px;" id="quiz-score-disp"></div>
+      </div>
+      <div class="prog-track" style="margin-bottom:18px;height:3px;"><div class="prog-fill" id="quiz-prog-fill" style="width:0%;background:var(--accent);"></div></div>
+      <div class="card" style="text-align:center;padding:28px 20px;margin-bottom:14px;min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+        <div style="font-size:11px;letter-spacing:0.1em;color:var(--text3);text-transform:uppercase;margin-bottom:10px;" id="quiz-prompt-label"></div>
+        <div style="font-size:68px;font-family:var(--font-jp);font-weight:300;color:var(--text);line-height:1;" id="quiz-char"></div>
+      </div>
+      <div id="quiz-options" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;"></div>
+      <div id="quiz-input-wrap" style="display:none;margin-bottom:10px;">
+        <input id="quiz-input" type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="輸入羅馬音（如 ka）" style="width:100%;background:var(--surface);border:0.5px solid var(--border2);border-radius:var(--r-sm);padding:13px 16px;font-size:16px;color:var(--text);font-family:var(--font-mono);outline:none;text-align:center;letter-spacing:0.08em;" onkeydown="handleInputKey(event)">
+        <button onclick="submitInput()" style="width:100%;margin-top:7px;padding:11px;background:var(--surface2);border:0.5px solid var(--border2);border-radius:var(--r-sm);color:var(--text2);font-size:14px;font-family:var(--font);cursor:pointer;">確認</button>
+      </div>
+      <div id="quiz-feedback" style="display:none;text-align:center;padding:14px;border-radius:var(--r-sm);margin-bottom:10px;">
+        <div style="font-size:20px;font-weight:600;margin-bottom:3px;" id="feedback-result"></div>
+        <div style="font-size:14px;color:var(--text2);" id="feedback-detail"></div>
+        <button onclick="nextQuestion()" style="margin-top:10px;padding:9px 26px;background:var(--surface3);border:none;border-radius:20px;color:var(--text);font-size:14px;font-family:var(--font);cursor:pointer;font-weight:600;">下一題 →</button>
+      </div>
+    </div>
+    <div id="kana-results" style="display:none;text-align:center;padding:20px 0;">
+      <div style="font-size:48px;margin-bottom:8px;" id="result-emoji"></div>
+      <div style="font-size:24px;font-weight:600;margin-bottom:4px;" id="result-score"></div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:20px;" id="result-sub"></div>
+      <div id="result-mistakes" style="text-align:left;margin-bottom:20px;"></div>
+      <button onclick="endQuiz()" style="width:100%;padding:13px;background:var(--accent);border:none;border-radius:var(--r);color:#fff;font-size:14px;font-weight:600;font-family:var(--font);cursor:pointer;">再練一次</button>
+    </div>
+  </div>
+  <div id="kana-chart-section" style="display:none;">
+    <div style="display:flex;gap:8px;margin-bottom:12px;">
+      <button class="phase-btn active" id="chart-hira-btn" onclick="showChart('hiragana',this)">平假名</button>
+      <button class="phase-btn" id="chart-kata-btn" onclick="showChart('katakana',this)">片假名</button>
+    </div>
+    <div id="kana-chart-grid"></div>
+  </div>
+</div>
+
+<!-- ========== TRACKER PAGE ========== -->
+<div id="page-tracker" class="page">
+  <div class="month-pick">
+    <select id="month-sel" onchange="loadEntry()"></select>
+    <button class="save-btn" onclick="saveEntry()">儲存</button>
+  </div>
+  <div class="section-label">本月完成了什麼</div>
+  <div class="checks-grid" style="margin-bottom:12px;">
+    <div class="check-card" data-key="anki" onclick="toggleCheck(this)"><div class="check-box"><div class="check-tick"></div></div><div class="check-label">Anki 每天維持</div></div>
+    <div class="check-card" data-key="bunpro" onclick="toggleCheck(this)"><div class="check-box"><div class="check-tick"></div></div><div class="check-label">Bunpro 新句型</div></div>
+    <div class="check-card" data-key="listen" onclick="toggleCheck(this)"><div class="check-box"><div class="check-tick"></div></div><div class="check-label">每週聽日文 3次+</div></div>
+    <div class="check-card" data-key="poker" onclick="toggleCheck(this)"><div class="check-box"><div class="check-tick"></div></div><div class="check-label">撲克桌開口說</div></div>
+    <div class="check-card" data-key="tutor" onclick="toggleCheck(this)"><div class="check-box"><div class="check-tick"></div></div><div class="check-label">上過家教課</div></div>
+    <div class="check-card" data-key="mock" onclick="toggleCheck(this)"><div class="check-box"><div class="check-tick"></div></div><div class="check-label">做模擬題</div></div>
+  </div>
+  <div class="section-label">自我感覺（點圓點評分）</div>
+  <div class="stars-grid">
+    <div class="star-card"><div class="star-dim">單字</div><div class="stars" id="stars-vocab" data-dim="vocab"></div><div class="star-val" id="sv-vocab">–</div></div>
+    <div class="star-card"><div class="star-dim">文法</div><div class="stars" id="stars-grammar" data-dim="grammar"></div><div class="star-val" id="sv-grammar">–</div></div>
+    <div class="star-card"><div class="star-dim">聽力</div><div class="stars" id="stars-listen" data-dim="listen"></div><div class="star-val" id="sv-listen">–</div></div>
+    <div class="star-card"><div class="star-dim">口說</div><div class="stars" id="stars-speak" data-dim="speak"></div><div class="star-val" id="sv-speak">–</div></div>
+  </div>
+  <div class="section-label">這個月印象最深的事</div>
+  <textarea class="note-input" id="note" placeholder="例：第一次在牌桌上聽懂了別人說的話！"></textarea>
+  <div class="section-label">歷史記錄</div>
+  <div id="history-list"></div>
+</div>
+
+<!-- ========== PLAN PAGE ========== -->
+<div id="page-plan" class="page">
+  <div class="today-banner">
+    <div class="today-label">今日任務建議</div>
+    <div class="today-task">Anki 複習 + 每日 15 個新單字（本 App）</div>
+    <div class="today-task">Bunpro 1–2 個新句型（20分鐘）</div>
+    <div class="today-task">Comprehensible Japanese 初級聽力（20分鐘）</div>
+    <div class="today-task">影子跟讀 + 撲克桌實戰（15分鐘）</div>
+  </div>
+  <div class="phase-selector">
+    <button class="phase-btn active" onclick="switchPhase('p1',this)">月1–3</button>
+    <button class="phase-btn" onclick="switchPhase('p2',this)">月4–9</button>
+    <button class="phase-btn" onclick="switchPhase('p3',this)">月10–18</button>
+  </div>
+  <div id="phase-p1" class="phase-content active">
+    <div class="card">
+      <div class="card-header"><span class="card-title">每日時間分配</span><span class="badge badge-purple">60–90 分鐘</span></div>
+      <div class="daily-grid">
+        <div class="daily-block"><div class="daily-min">15</div><div class="daily-unit">分鐘</div><div class="daily-label">單字</div><div class="daily-detail">每日單字頁 + Anki</div></div>
+        <div class="daily-block"><div class="daily-min">20</div><div class="daily-unit">分鐘</div><div class="daily-label">文法</div><div class="daily-detail">Bunpro N4 每天 1–2 句型</div></div>
+        <div class="daily-block"><div class="daily-min">20</div><div class="daily-unit">分鐘</div><div class="daily-label">聽力</div><div class="daily-detail">Comprehensible JP 初級</div></div>
+        <div class="daily-block"><div class="daily-min">15</div><div class="daily-unit">分鐘</div><div class="daily-label">口說</div><div class="daily-detail">影子跟讀 + 撲克桌</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">N4 文法重點</span><span class="badge badge-teal">核心</span></div>
+      <div class="task-item"><div class="task-dot" style="background:var(--accent)"></div><div class="task-text"><strong>助詞</strong> — は / が / を / に / で / へ の差異</div></div>
+      <div class="task-item"><div class="task-dot" style="background:var(--accent)"></div><div class="task-text"><strong>て形</strong> — ている / てから / てもいい / てはいけない</div></div>
+      <div class="task-item"><div class="task-dot" style="background:var(--accent)"></div><div class="task-text"><strong>條件形</strong> — たら / ば / と / なら 的差異</div></div>
+      <div class="task-item"><div class="task-dot" style="background:var(--accent)"></div><div class="task-text"><strong>意志・願望</strong> — たい / てほしい / てみる / つもり</div></div>
+      <div class="tip"><p>撲克桌建議：每次去之前準備 3 句。例：「今日は運がいいね」「あのカードは強すぎる」</p></div>
+    </div>
+  </div>
+  <div id="phase-p2" class="phase-content">
+    <div class="card">
+      <div class="card-header"><span class="card-title">引入家教</span><span class="badge badge-amber">月4 開始</span></div>
+      <div class="task-item"><div class="task-dot" style="background:var(--accent3)"></div><div class="task-text">每週 1–2 次，重點：糾正口說習慣、N3 文法消化</div></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">N3 文法重點</span></div>
+      <div class="task-item"><div class="task-dot" style="background:var(--accent)"></div><div class="task-text"><strong>推測・傳聞</strong> — そうだ / らしい / ようだ / はずだ</div></div>
+      <div class="task-item"><div class="task-dot" style="background:var(--accent)"></div><div class="task-text"><strong>解釋・當然</strong> — わけだ / ものだ / ことだ</div></div>
+      <div class="task-item"><div class="task-dot" style="background:var(--accent)"></div><div class="task-text"><strong>逆接・讓步</strong> — のに / ても / くせに</div></div>
+    </div>
+  </div>
+  <div id="phase-p3" class="phase-content">
+    <div class="card">
+      <div class="card-header"><span class="card-title">N2 三大難關</span><span class="badge badge-pink">月10–18</span></div>
+      <div class="task-item"><div class="task-dot" style="background:var(--accent4)"></div><div class="task-text"><strong>閱讀速度</strong> — 每天讀 NHK 一般版，訓練快速理解長文</div></div>
+      <div class="task-item"><div class="task-dot" style="background:var(--accent4)"></div><div class="task-text"><strong>聽力精度</strong> — 日劇三階段：看字幕→遮字幕→只聽</div></div>
+      <div class="task-item"><div class="task-dot" style="background:var(--accent4)"></div><div class="task-text"><strong>書面文法</strong> — 新完全マスター N2 系列刷題</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== RESOURCES PAGE ========== -->
+<div id="page-resources" class="page">
+  <div class="card">
+    <div class="card-header"><span class="card-title">免費工具</span></div>
+    <div class="resource-item"><div class="res-icon" style="background:rgba(93,212,176,0.1)">📚</div><div><div class="res-name">Bunpro</div><span class="res-tag tag-free">免費</span><span class="res-tag tag-paid">N3+付費</span><div class="res-desc">JLPT分級文法平台，間隔重複系統。N5–N4免費。</div><a class="res-link" href="https://bunpro.jp" target="_blank">bunpro.jp ↗</a></div></div>
+    <div class="resource-item"><div class="res-icon" style="background:rgba(124,106,247,0.1)">🃏</div><div><div class="res-name">Anki</div><span class="res-tag tag-free">免費</span><div class="res-desc">間隔重複單字軟體。搜尋「JLPT Sensei Vocab」牌組。</div><a class="res-link" href="https://apps.ankiweb.net" target="_blank">apps.ankiweb.net ↗</a></div></div>
+    <div class="resource-item"><div class="res-icon" style="background:rgba(247,162,93,0.1)">🎧</div><div><div class="res-name">Comprehensible Japanese</div><span class="res-tag tag-free">免費</span><div class="res-desc">YouTube頻道，從初學到N2全分級聽力輸入。</div><a class="res-link" href="https://youtube.com/@cijapanese" target="_blank">YouTube ↗</a></div></div>
+    <div class="resource-item"><div class="res-icon" style="background:rgba(93,212,176,0.1)">📰</div><div><div class="res-name">NHK Web Easy</div><span class="res-tag tag-free">免費</span><div class="res-desc">NHK新聞簡化版，有假名標注。N4–N3閱讀練習。</div><a class="res-link" href="https://www3.nhk.or.jp/news/easy/" target="_blank">nhk.or.jp ↗</a></div></div>
+    <div class="resource-item"><div class="res-icon" style="background:rgba(124,106,247,0.1)">🔍</div><div><div class="res-name">Jisho.org</div><span class="res-tag tag-free">免費</span><div class="res-desc">最好用的日英字典，有JLPT級別、筆順、例句。</div><a class="res-link" href="https://jisho.org" target="_blank">jisho.org ↗</a></div></div>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-title">值得投資</span></div>
+    <div class="resource-item"><div class="res-icon" style="background:rgba(247,162,93,0.1)">📘</div><div><div class="res-name">新完全マスター 系列</div><span class="res-tag tag-book">實體書</span><div class="res-desc">JLPT最權威備考書，N3和N2各買一套。Amazon Japan購入。</div></div></div>
+    <div class="resource-item"><div class="res-icon" style="background:rgba(93,212,176,0.1)">👨‍🏫</div><div><div class="res-name">italki（過渡用）</div><span class="res-tag tag-paid">付費</span><div class="res-desc">本地家教就位前，社群老師約時$10–15。</div><a class="res-link" href="https://italki.com" target="_blank">italki.com ↗</a></div></div>
+    <div class="resource-item"><div class="res-icon" style="background:rgba(124,106,247,0.1)">📝</div><div><div class="res-name">JLPT 官方報名</div><span class="res-tag tag-free">每年7月&12月</span><div class="res-desc">目標：N4今年12月→N3明年7月→N2明年12月。</div><a class="res-link" href="https://www.jlpt.jp" target="_blank">jlpt.jp ↗</a></div></div>
+  </div>
+</div>
+
+</div><!-- end content -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ========== JLPT WORD DATA ==========
+// N5: ~150 words, N4: ~150 words, N3: ~150 words
+// Format: {jp, r, zh, lv, cat, ex_jp, ex_zh, ex_tag}
+const JLPT_WORDS = [
+// ---- N5 ----
+{jp:'食べる',r:'たべる',zh:'吃',lv:'N5',cat:'動詞',ex_jp:'レストランで寿司を食べます。',ex_zh:'在餐廳吃壽司。',ex_tag:'吃飯'},
+{jp:'飲む',r:'のむ',zh:'喝',lv:'N5',cat:'動詞',ex_jp:'コーヒーを飲みますか？',ex_zh:'要喝咖啡嗎？',ex_tag:'吃飯'},
+{jp:'行く',r:'いく',zh:'去',lv:'N5',cat:'動詞',ex_jp:'明日、駅に行きます。',ex_zh:'明天去車站。',ex_tag:'搭車'},
+{jp:'来る',r:'くる',zh:'來',lv:'N5',cat:'動詞',ex_jp:'友達が家に来ます。',ex_zh:'朋友來家裡。',ex_tag:'聚會'},
+{jp:'見る',r:'みる',zh:'看',lv:'N5',cat:'動詞',ex_jp:'映画を見ませんか？',ex_zh:'要不要去看電影？',ex_tag:'聚會'},
+{jp:'話す',r:'はなす',zh:'說話',lv:'N5',cat:'動詞',ex_jp:'日本語で話してください。',ex_zh:'請用日語說話。',ex_tag:'日常'},
+{jp:'聞く',r:'きく',zh:'聽／問',lv:'N5',cat:'動詞',ex_jp:'駅の場所を聞きました。',ex_zh:'我問了車站的位置。',ex_tag:'搭車'},
+{jp:'買う',r:'かう',zh:'買',lv:'N5',cat:'動詞',ex_jp:'コンビニでお弁当を買います。',ex_zh:'在便利商店買便當。',ex_tag:'購物'},
+{jp:'書く',r:'かく',zh:'寫',lv:'N5',cat:'動詞',ex_jp:'名前を書いてください。',ex_zh:'請寫上姓名。',ex_tag:'自我介紹'},
+{jp:'読む',r:'よむ',zh:'讀',lv:'N5',cat:'動詞',ex_jp:'毎日、日本語の本を読みます。',ex_zh:'每天讀日文書。',ex_tag:'日常'},
+{jp:'起きる',r:'おきる',zh:'起床',lv:'N5',cat:'動詞',ex_jp:'毎朝七時に起きます。',ex_zh:'每天早上七點起床。',ex_tag:'日常'},
+{jp:'寝る',r:'ねる',zh:'睡覺',lv:'N5',cat:'動詞',ex_jp:'もう寝ます。おやすみなさい。',ex_zh:'我要睡了。晚安。',ex_tag:'日常'},
+{jp:'帰る',r:'かえる',zh:'回去',lv:'N5',cat:'動詞',ex_jp:'仕事の後、家に帰ります。',ex_zh:'工作後回家。',ex_tag:'日常'},
+{jp:'入る',r:'はいる',zh:'進入',lv:'N5',cat:'動詞',ex_jp:'このお店に入りましょう。',ex_zh:'進這家店吧。',ex_tag:'購物'},
+{jp:'出る',r:'でる',zh:'出去',lv:'N5',cat:'動詞',ex_jp:'電車が駅を出ました。',ex_zh:'電車離開車站了。',ex_tag:'搭車'},
+{jp:'乗る',r:'のる',zh:'乘坐',lv:'N5',cat:'動詞',ex_jp:'地下鉄に乗ります。',ex_zh:'搭地鐵。',ex_tag:'搭車'},
+{jp:'降りる',r:'おりる',zh:'下車',lv:'N5',cat:'動詞',ex_jp:'次の駅で降ります。',ex_zh:'在下一站下車。',ex_tag:'搭車'},
+{jp:'待つ',r:'まつ',zh:'等待',lv:'N5',cat:'動詞',ex_jp:'改札口で待っています。',ex_zh:'在剪票口等你。',ex_tag:'搭車'},
+{jp:'会う',r:'あう',zh:'見面',lv:'N5',cat:'動詞',ex_jp:'明日、友達に会います。',ex_zh:'明天和朋友見面。',ex_tag:'聚會'},
+{jp:'使う',r:'つかう',zh:'使用',lv:'N5',cat:'動詞',ex_jp:'カードを使えますか？',ex_zh:'可以用卡嗎？',ex_tag:'購物'},
+{jp:'大きい',r:'おおきい',zh:'大的',lv:'N5',cat:'形容詞',ex_jp:'大きいサイズをください。',ex_zh:'請給我大的尺寸。',ex_tag:'購物'},
+{jp:'小さい',r:'ちいさい',zh:'小的',lv:'N5',cat:'形容詞',ex_jp:'小さいテーブルがいいです。',ex_zh:'我想要小桌子。',ex_tag:'吃飯'},
+{jp:'おいしい',r:'おいしい',zh:'好吃',lv:'N5',cat:'形容詞',ex_jp:'このラーメンはおいしいですね！',ex_zh:'這碗拉麵真好吃！',ex_tag:'吃飯'},
+{jp:'高い',r:'たかい',zh:'貴／高',lv:'N5',cat:'形容詞',ex_jp:'ちょっと高いですね。',ex_zh:'有點貴呢。',ex_tag:'購物'},
+{jp:'安い',r:'やすい',zh:'便宜',lv:'N5',cat:'形容詞',ex_jp:'ここは安くておいしい！',ex_zh:'這裡便宜又好吃！',ex_tag:'吃飯'},
+{jp:'難しい',r:'むずかしい',zh:'困難',lv:'N5',cat:'形容詞',ex_jp:'日本語は難しいです。',ex_zh:'日語很難。',ex_tag:'日常'},
+{jp:'楽しい',r:'たのしい',zh:'快樂',lv:'N5',cat:'形容詞',ex_jp:'ポーカーは楽しいですね。',ex_zh:'撲克很有趣呢。',ex_tag:'聚會'},
+{jp:'忙しい',r:'いそがしい',zh:'忙碌',lv:'N5',cat:'形容詞',ex_jp:'最近、忙しいですか？',ex_zh:'最近忙嗎？',ex_tag:'日常'},
+{jp:'名前',r:'なまえ',zh:'名字',lv:'N5',cat:'名詞',ex_jp:'お名前は何ですか？',ex_zh:'請問您貴姓？',ex_tag:'自我介紹'},
+{jp:'仕事',r:'しごと',zh:'工作',lv:'N5',cat:'名詞',ex_jp:'お仕事は何をされていますか？',ex_zh:'您從事什麼工作？',ex_tag:'自我介紹'},
+{jp:'時間',r:'じかん',zh:'時間',lv:'N5',cat:'名詞',ex_jp:'今、時間がありますか？',ex_zh:'你現在有時間嗎？',ex_tag:'日常'},
+{jp:'電車',r:'でんしゃ',zh:'電車',lv:'N5',cat:'名詞',ex_jp:'電車で行きます。',ex_zh:'搭電車去。',ex_tag:'搭車'},
+{jp:'駅',r:'えき',zh:'車站',lv:'N5',cat:'名詞',ex_jp:'駅はどこですか？',ex_zh:'車站在哪裡？',ex_tag:'搭車'},
+{jp:'友達',r:'ともだち',zh:'朋友',lv:'N5',cat:'名詞',ex_jp:'友達と食事しました。',ex_zh:'和朋友一起吃飯了。',ex_tag:'聚會'},
+{jp:'国',r:'くに',zh:'國家',lv:'N5',cat:'名詞',ex_jp:'どちらの国から来ましたか？',ex_zh:'您從哪個國家來的？',ex_tag:'自我介紹'},
+{jp:'言葉',r:'ことば',zh:'語言／詞語',lv:'N5',cat:'名詞',ex_jp:'日本語という言葉は難しい。',ex_zh:'日語這個語言很難。',ex_tag:'日常'},
+{jp:'お金',r:'おかね',zh:'錢',lv:'N5',cat:'名詞',ex_jp:'お金はいくらですか？',ex_zh:'多少錢？',ex_tag:'購物'},
+{jp:'今日',r:'きょう',zh:'今天',lv:'N5',cat:'名詞',ex_jp:'今日はよろしくお願いします。',ex_zh:'今天請多關照。',ex_tag:'日常'},
+{jp:'明日',r:'あした',zh:'明天',lv:'N5',cat:'名詞',ex_jp:'明日、また来ます。',ex_zh:'明天再來。',ex_tag:'日常'},
+{jp:'どこ',r:'どこ',zh:'哪裡',lv:'N5',cat:'疑問詞',ex_jp:'トイレはどこですか？',ex_zh:'廁所在哪裡？',ex_tag:'日常'},
+{jp:'いくら',r:'いくら',zh:'多少錢',lv:'N5',cat:'疑問詞',ex_jp:'これはいくらですか？',ex_zh:'這個多少錢？',ex_tag:'購物'},
+{jp:'いつ',r:'いつ',zh:'什麼時候',lv:'N5',cat:'疑問詞',ex_jp:'いつ日本に来ましたか？',ex_zh:'你什麼時候來日本的？',ex_tag:'自我介紹'},
+{jp:'もう',r:'もう',zh:'已經／再',lv:'N5',cat:'副詞',ex_jp:'もうお腹がいっぱいです。',ex_zh:'我已經吃飽了。',ex_tag:'吃飯'},
+{jp:'まだ',r:'まだ',zh:'還／仍然',lv:'N5',cat:'副詞',ex_jp:'まだ注文していません。',ex_zh:'還沒點餐。',ex_tag:'吃飯'},
+{jp:'少し',r:'すこし',zh:'一點點',lv:'N5',cat:'副詞',ex_jp:'少し待ってください。',ex_zh:'請稍等一下。',ex_tag:'日常'},
+// ---- N4 ----
+{jp:'決める',r:'きめる',zh:'決定',lv:'N4',cat:'動詞',ex_jp:'何を注文するか決めましたか？',ex_zh:'決定要點什麼了嗎？',ex_tag:'吃飯'},
+{jp:'始める',r:'はじめる',zh:'開始',lv:'N4',cat:'動詞',ex_jp:'日本語の勉強を始めました。',ex_zh:'開始學日語了。',ex_tag:'自我介紹'},
+{jp:'終わる',r:'おわる',zh:'結束',lv:'N4',cat:'動詞',ex_jp:'ゲームが終わったら、飲みに行こう。',ex_zh:'遊戲結束後去喝一杯吧。',ex_tag:'聚會'},
+{jp:'続ける',r:'つづける',zh:'繼續',lv:'N4',cat:'動詞',ex_jp:'毎日勉強を続けています。',ex_zh:'每天持續學習。',ex_tag:'日常'},
+{jp:'覚える',r:'おぼえる',zh:'記住',lv:'N4',cat:'動詞',ex_jp:'この単語を覚えてください。',ex_zh:'請記住這個單字。',ex_tag:'日常'},
+{jp:'忘れる',r:'わすれる',zh:'忘記',lv:'N4',cat:'動詞',ex_jp:'財布を忘れました！',ex_zh:'忘帶錢包了！',ex_tag:'購物'},
+{jp:'教える',r:'おしえる',zh:'教',lv:'N4',cat:'動詞',ex_jp:'道を教えてもらえますか？',ex_zh:'可以告訴我路怎麼走嗎？',ex_tag:'搭車'},
+{jp:'予約する',r:'よやくする',zh:'預約',lv:'N4',cat:'動詞',ex_jp:'テーブルを二人で予約したいです。',ex_zh:'我想預約兩人的座位。',ex_tag:'預約'},
+{jp:'確認する',r:'かくにんする',zh:'確認',lv:'N4',cat:'動詞',ex_jp:'予約を確認させてください。',ex_zh:'讓我確認一下預約。',ex_tag:'預約'},
+{jp:'連絡する',r:'れんらくする',zh:'聯絡',lv:'N4',cat:'動詞',ex_jp:'後で連絡します。',ex_zh:'之後再聯絡你。',ex_tag:'日常'},
+{jp:'説明する',r:'せつめいする',zh:'說明',lv:'N4',cat:'動詞',ex_jp:'メニューを説明していただけますか？',ex_zh:'可以幫我說明一下菜單嗎？',ex_tag:'吃飯'},
+{jp:'変える',r:'かえる',zh:'改變',lv:'N4',cat:'動詞',ex_jp:'席を変えてもいいですか？',ex_zh:'可以換位子嗎？',ex_tag:'吃飯'},
+{jp:'選ぶ',r:'えらぶ',zh:'選擇',lv:'N4',cat:'動詞',ex_jp:'好きなものを選んでください。',ex_zh:'請選你喜歡的。',ex_tag:'購物'},
+{jp:'送る',r:'おくる',zh:'寄送',lv:'N4',cat:'動詞',ex_jp:'メッセージを送ります。',ex_zh:'傳送訊息。',ex_tag:'日常'},
+{jp:'迎える',r:'むかえる',zh:'迎接',lv:'N4',cat:'動詞',ex_jp:'駅まで迎えに行きます。',ex_zh:'去車站接你。',ex_tag:'搭車'},
+{jp:'調べる',r:'しらべる',zh:'查詢',lv:'N4',cat:'動詞',ex_jp:'電車の時間を調べます。',ex_zh:'查一下電車時間。',ex_tag:'搭車'},
+{jp:'集まる',r:'あつまる',zh:'聚集',lv:'N4',cat:'動詞',ex_jp:'六時に駅前に集まりましょう。',ex_zh:'六點在車站前集合吧。',ex_tag:'聚會'},
+{jp:'楽しむ',r:'たのしむ',zh:'享受',lv:'N4',cat:'動詞',ex_jp:'今夜のゲームを楽しみましょう！',ex_zh:'好好享受今晚的遊戲吧！',ex_tag:'聚會'},
+{jp:'気をつける',r:'きをつける',zh:'注意',lv:'N4',cat:'動詞',ex_jp:'帰り道、気をつけてください。',ex_zh:'回家路上請注意安全。',ex_tag:'日常'},
+{jp:'断る',r:'ことわる',zh:'拒絕',lv:'N4',cat:'動詞',ex_jp:'予約をキャンセルしたい場合は断ります。',ex_zh:'想取消的話要拒絕。',ex_tag:'預約'},
+{jp:'親切',r:'しんせつ',zh:'親切',lv:'N4',cat:'形容詞',ex_jp:'このお店のスタッフはとても親切です。',ex_zh:'這家店的員工非常親切。',ex_tag:'日常'},
+{jp:'丁寧',r:'ていねい',zh:'禮貌',lv:'N4',cat:'形容詞',ex_jp:'丁寧に話してください。',ex_zh:'請說話有禮貌一點。',ex_tag:'自我介紹'},
+{jp:'便利',r:'べんり',zh:'方便',lv:'N4',cat:'形容詞',ex_jp:'ここは交通が便利ですね。',ex_zh:'這裡交通很方便呢。',ex_tag:'搭車'},
+{jp:'大切',r:'たいせつ',zh:'重要',lv:'N4',cat:'形容詞',ex_jp:'毎日練習することが大切です。',ex_zh:'每天練習很重要。',ex_tag:'日常'},
+{jp:'予約',r:'よやく',zh:'預約',lv:'N4',cat:'名詞',ex_jp:'ご予約はございますか？',ex_zh:'您有預約嗎？',ex_tag:'預約'},
+{jp:'席',r:'せき',zh:'座位',lv:'N4',cat:'名詞',ex_jp:'禁煙席をお願いします。',ex_zh:'請給我禁菸席。',ex_tag:'吃飯'},
+{jp:'注文',r:'ちゅうもん',zh:'點餐／訂單',lv:'N4',cat:'名詞',ex_jp:'ご注文はお決まりですか？',ex_zh:'請問您決定要點什麼了嗎？',ex_tag:'吃飯'},
+{jp:'会計',r:'かいけい',zh:'結帳',lv:'N4',cat:'名詞',ex_jp:'すみません、会計をお願いします。',ex_zh:'不好意思，請幫我結帳。',ex_tag:'吃飯'},
+{jp:'定期',r:'ていき',zh:'定期票',lv:'N4',cat:'名詞',ex_jp:'定期券を買いたいです。',ex_zh:'我想買定期票。',ex_tag:'搭車'},
+{jp:'乗り換え',r:'のりかえ',zh:'轉乘',lv:'N4',cat:'名詞',ex_jp:'どこで乗り換えればいいですか？',ex_zh:'在哪裡轉乘？',ex_tag:'搭車'},
+{jp:'趣味',r:'しゅみ',zh:'興趣',lv:'N4',cat:'名詞',ex_jp:'趣味はポーカーです。',ex_zh:'我的興趣是撲克。',ex_tag:'自我介紹'},
+{jp:'出身',r:'しゅっしん',zh:'出身地',lv:'N4',cat:'名詞',ex_jp:'台湾出身です。',ex_zh:'我來自台灣。',ex_tag:'自我介紹'},
+{jp:'特技',r:'とくぎ',zh:'特長',lv:'N4',cat:'名詞',ex_jp:'特技は料理です。',ex_zh:'我的特長是做料理。',ex_tag:'自我介紹'},
+{jp:'気分',r:'きぶん',zh:'心情',lv:'N4',cat:'名詞',ex_jp:'今日は気分がいいですね。',ex_zh:'今天心情很好呢。',ex_tag:'聚會'},
+{jp:'場合',r:'ばあい',zh:'情況',lv:'N4',cat:'名詞',ex_jp:'遅れる場合は連絡します。',ex_zh:'會遲到的情況下會聯絡你。',ex_tag:'日常'},
+{jp:'ところで',r:'ところで',zh:'對了／話說回來',lv:'N4',cat:'接續詞',ex_jp:'ところで、お仕事は何ですか？',ex_zh:'對了，您從事什麼工作？',ex_tag:'自我介紹'},
+{jp:'だいたい',r:'だいたい',zh:'大概',lv:'N4',cat:'副詞',ex_jp:'だいたい三十分かかります。',ex_zh:'大概要三十分鐘。',ex_tag:'搭車'},
+{jp:'やっぱり',r:'やっぱり',zh:'果然',lv:'N4',cat:'副詞',ex_jp:'やっぱり日本語は難しい。',ex_zh:'果然日語很難。',ex_tag:'日常'},
+{jp:'ちょうど',r:'ちょうど',zh:'剛好',lv:'N4',cat:'副詞',ex_jp:'ちょうどよかった！',ex_zh:'剛好！',ex_tag:'日常'},
+{jp:'なるべく',r:'なるべく',zh:'盡量',lv:'N4',cat:'副詞',ex_jp:'なるべく早く来てください。',ex_zh:'請盡量早點來。',ex_tag:'聚會'},
+{jp:'もちろん',r:'もちろん',zh:'當然',lv:'N4',cat:'副詞',ex_jp:'もちろん、行きます！',ex_zh:'當然去！',ex_tag:'聚會'},
+{jp:'ぜひ',r:'ぜひ',zh:'務必',lv:'N4',cat:'副詞',ex_jp:'ぜひ、また来てください。',ex_zh:'請務必再來。',ex_tag:'日常'},
+// ---- N3 ----
+{jp:'伝える',r:'つたえる',zh:'傳達',lv:'N3',cat:'動詞',ex_jp:'気持ちを言葉で伝えたい。',ex_zh:'想用言語傳達心意。',ex_tag:'日常'},
+{jp:'判断する',r:'はんだんする',zh:'判斷',lv:'N3',cat:'動詞',ex_jp:'状況を判断して決めます。',ex_zh:'判斷情況後再決定。',ex_tag:'日常'},
+{jp:'参加する',r:'さんかする',zh:'參加',lv:'N3',cat:'動詞',ex_jp:'ポーカー大会に参加します。',ex_zh:'參加撲克比賽。',ex_tag:'聚會'},
+{jp:'相談する',r:'そうだんする',zh:'商量',lv:'N3',cat:'動詞',ex_jp:'困ったときは相談してください。',ex_zh:'有困難時請來商量。',ex_tag:'日常'},
+{jp:'断る',r:'ことわる',zh:'拒絕',lv:'N3',cat:'動詞',ex_jp:'申し訳ありませんが、お断りします。',ex_zh:'非常抱歉，我拒絕。',ex_tag:'日常'},
+{jp:'慣れる',r:'なれる',zh:'習慣',lv:'N3',cat:'動詞',ex_jp:'日本の生活に慣れましたか？',ex_zh:'習慣日本的生活了嗎？',ex_tag:'自我介紹'},
+{jp:'改善する',r:'かいぜんする',zh:'改善',lv:'N3',cat:'動詞',ex_jp:'日本語を改善したいです。',ex_zh:'想改善日語水平。',ex_tag:'日常'},
+{jp:'申し込む',r:'もうしこむ',zh:'申請',lv:'N3',cat:'動詞',ex_jp:'日本語試験に申し込みました。',ex_zh:'申請了日語考試。',ex_tag:'預約'},
+{jp:'取り消す',r:'とりけす',zh:'取消',lv:'N3',cat:'動詞',ex_jp:'予約を取り消したいです。',ex_zh:'我想取消預約。',ex_tag:'預約'},
+{jp:'乗り込む',r:'のりこむ',zh:'登上（交通工具）',lv:'N3',cat:'動詞',ex_jp:'バスに乗り込みます。',ex_zh:'上巴士。',ex_tag:'搭車'},
+{jp:'見かける',r:'みかける',zh:'偶然看到',lv:'N3',cat:'動詞',ex_jp:'駅でよく見かけます。',ex_zh:'常常在車站看到。',ex_tag:'搭車'},
+{jp:'すれ違う',r:'すれちがう',zh:'擦肩而過',lv:'N3',cat:'動詞',ex_jp:'改札でよくすれ違います。',ex_zh:'常在剪票口擦肩而過。',ex_tag:'搭車'},
+{jp:'盛り上がる',r:'もりあがる',zh:'熱絡起來',lv:'N3',cat:'動詞',ex_jp:'パーティーが盛り上がりました。',ex_zh:'派對變得很熱鬧。',ex_tag:'聚會'},
+{jp:'お世話になる',r:'おせわになる',zh:'受照顧',lv:'N3',cat:'動詞',ex_jp:'いつもお世話になっています。',ex_zh:'一直承蒙您的關照。',ex_tag:'自我介紹'},
+{jp:'工夫する',r:'くふうする',zh:'下功夫',lv:'N3',cat:'動詞',ex_jp:'覚えやすいように工夫します。',ex_zh:'想辦法讓記憶變容易。',ex_tag:'日常'},
+{jp:'混雑する',r:'こんざつする',zh:'擁擠',lv:'N3',cat:'動詞',ex_jp:'ラッシュ時は電車が混雑します。',ex_zh:'尖峰時段電車很擁擠。',ex_tag:'搭車'},
+{jp:'苦手',r:'にがて',zh:'不擅長',lv:'N3',cat:'形容詞',ex_jp:'カタカナがちょっと苦手です。',ex_zh:'片假名有點不擅長。',ex_tag:'自我介紹'},
+{jp:'得意',r:'とくい',zh:'擅長',lv:'N3',cat:'形容詞',ex_jp:'ブラフが得意です。',ex_zh:'我擅長詐唬。',ex_tag:'聚會'},
+{jp:'複雑',r:'ふくざつ',zh:'複雜',lv:'N3',cat:'形容詞',ex_jp:'日本語の文法は複雑ですね。',ex_zh:'日語文法很複雜呢。',ex_tag:'日常'},
+{jp:'正確',r:'せいかく',zh:'正確',lv:'N3',cat:'形容詞',ex_jp:'発音を正確にしたい。',ex_zh:'想讓發音更準確。',ex_tag:'日常'},
+{jp:'自然',r:'しぜん',zh:'自然',lv:'N3',cat:'形容詞',ex_jp:'自然に日本語を話したい。',ex_zh:'想自然地說日語。',ex_tag:'日常'},
+{jp:'遅刻',r:'ちこく',zh:'遲到',lv:'N3',cat:'名詞',ex_jp:'電車が遅れて遅刻しました。',ex_zh:'電車誤點所以遲到了。',ex_tag:'搭車'},
+{jp:'満員',r:'まんいん',zh:'客滿',lv:'N3',cat:'名詞',ex_jp:'満員電車はつらいですね。',ex_zh:'擠滿人的電車真辛苦呢。',ex_tag:'搭車'},
+{jp:'改札',r:'かいさつ',zh:'剪票口',lv:'N3',cat:'名詞',ex_jp:'改札を出たところで待っています。',ex_zh:'在出剪票口的地方等你。',ex_tag:'搭車'},
+{jp:'割引',r:'わりびき',zh:'折扣',lv:'N3',cat:'名詞',ex_jp:'学生割引はありますか？',ex_zh:'有學生折扣嗎？',ex_tag:'購物'},
+{jp:'領収書',r:'りょうしゅうしょ',zh:'收據',lv:'N3',cat:'名詞',ex_jp:'領収書をください。',ex_zh:'請給我收據。',ex_tag:'購物'},
+{jp:'雰囲気',r:'ふんいき',zh:'氛圍',lv:'N3',cat:'名詞',ex_jp:'このお店、雰囲気がいいですね。',ex_zh:'這家店氛圍很好呢。',ex_tag:'吃飯'},
+{jp:'おすすめ',r:'おすすめ',zh:'推薦',lv:'N3',cat:'名詞',ex_jp:'おすすめは何ですか？',ex_zh:'有什麼推薦的嗎？',ex_tag:'吃飯'},
+{jp:'キャンセル',r:'キャンセル',zh:'取消',lv:'N3',cat:'名詞',ex_jp:'キャンセルをしたいのですが。',ex_zh:'我想取消。',ex_tag:'預約'},
+{jp:'締め切り',r:'しめきり',zh:'截止日期',lv:'N3',cat:'名詞',ex_jp:'申込の締め切りはいつですか？',ex_zh:'申請的截止日是什麼時候？',ex_tag:'預約'},
+{jp:'案内',r:'あんない',zh:'引導／指引',lv:'N3',cat:'名詞',ex_jp:'観光案内所はどこですか？',ex_zh:'觀光服務台在哪裡？',ex_tag:'日常'},
+{jp:'経験',r:'けいけん',zh:'經驗',lv:'N3',cat:'名詞',ex_jp:'どんな経験がありますか？',ex_zh:'你有什麼樣的經驗？',ex_tag:'自我介紹'},
+{jp:'目標',r:'もくひょう',zh:'目標',lv:'N3',cat:'名詞',ex_jp:'N2合格が目標です。',ex_zh:'目標是通過N2。',ex_tag:'自我介紹'},
+{jp:'それほど',r:'それほど',zh:'那麼（程度）',lv:'N3',cat:'副詞',ex_jp:'それほど難しくないですよ。',ex_zh:'沒有那麼難啦。',ex_tag:'日常'},
+{jp:'やはり',r:'やはり',zh:'果然／終究',lv:'N3',cat:'副詞',ex_jp:'やはり、練習が大切ですね。',ex_zh:'果然，練習很重要呢。',ex_tag:'日常'},
+{jp:'ところが',r:'ところが',zh:'然而',lv:'N3',cat:'接續詞',ex_jp:'頑張った。ところが、試験に落ちた。',ex_zh:'雖然努力了，然而考試還是落榜了。',ex_tag:'日常'},
+{jp:'それに',r:'それに',zh:'而且',lv:'N3',cat:'接續詞',ex_jp:'安くて、それにおいしい！',ex_zh:'便宜，而且好吃！',ex_tag:'吃飯'},
+];
+
+// ========== ENCOUNTER TRACKING ==========
+// Storage keys: 'enc_{jp}' = count, 'daily_{dateKey}' = [jp, jp, ...]
+function getDateKey() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function getEncounterCount(jp) {
+  try { return parseInt(localStorage.getItem('enc_' + jp) || '0'); } catch(e) { return 0; }
+}
+function addEncounter(jp) {
+  try {
+    const c = getEncounterCount(jp);
+    localStorage.setItem('enc_' + jp, c + 1);
+  } catch(e) {}
+}
+function getTodayWords() {
+  const key = 'daily_' + getDateKey();
+  try {
+    const stored = localStorage.getItem(key);
+    if (stored) return JSON.parse(stored);
+  } catch(e) {}
+  // Generate today's 15 words using date as seed
+  const seed = getDateKey().replace(/-/g,'');
+  let rng = parseInt(seed) % 999983;
+  function rand() { rng = (rng * 16807 + 0) % 2147483647; return rng / 2147483647; }
+  const pool = [...JLPT_WORDS];
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(rand() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  const selected = pool.slice(0, 15).map(w => w.jp);
+  try { localStorage.setItem(key, JSON.stringify(selected)); } catch(e) {}
+  return selected;
+}
+
+// ========== DAILY PAGE ==========
+function renderDaily() {
+  const todayJps = getTodayWords();
+  const wordMap = {};
+  JLPT_WORDS.forEach(w => wordMap[w.jp] = w);
+  const d = new Date();
+  const days = ['日','一','二','三','四','五','六'];
+  document.getElementById('daily-title').textContent =
+    `${d.getMonth()+1}月${d.getDate()}日（週${days[d.getDay()]}）`;
+  const total = todayJps.length;
+  const seen = todayJps.filter(jp => getEncounterCount(jp) > 0).length;
+  document.getElementById('daily-subtitle').textContent =
+    `今日 ${total} 個單字 · 已學習 ${seen} 個`;
+
+  const list = document.getElementById('daily-list');
+  list.innerHTML = todayJps.map(jp => {
+    const w = wordMap[jp];
+    if (!w) return '';
+    const cnt = getEncounterCount(jp);
+    const tagColors = {
+      '吃飯':'rgba(93,212,176,0.12)','搭車':'rgba(124,106,247,0.12)',
+      '購物':'rgba(247,162,93,0.12)','聚會':'rgba(247,93,142,0.12)',
+      '自我介紹':'rgba(93,212,176,0.12)','預約':'rgba(247,162,93,0.12)','日常':'rgba(255,255,255,0.05)'
+    };
+    const tagTextColors = {
+      '吃飯':'var(--accent2)','搭車':'var(--accent)',
+      '購物':'var(--accent3)','聚會':'var(--accent4)',
+      '自我介紹':'var(--accent2)','預約':'var(--accent3)','日常':'var(--text3)'
+    };
+    return `<div class="daily-word-card ${cnt>0?'seen':''}" onclick="markSeen('${jp}')">
+      <div class="daily-word-top">
+        <div>
+          <div class="daily-word-jp">${w.jp}</div>
+          <div class="daily-word-reading">${w.r}</div>
+          <div class="daily-word-zh">${w.zh}</div>
+        </div>
+        <div class="daily-word-meta">
+          <span class="badge ${w.lv==='N5'?'badge-teal':w.lv==='N4'?'badge-amber':'badge-purple'}">${w.lv}</span>
+          ${cnt>0 ? `<span class="seen-badge">學過 ${cnt} 次</span>` : '<span style="font-size:10px;color:var(--text3)">點擊標記</span>'}
+        </div>
+      </div>
+      <div class="daily-example">
+        <div class="daily-example-tag" style="background:${tagColors[w.ex_tag]||'rgba(255,255,255,0.05)'};color:${tagTextColors[w.ex_tag]||'var(--text3)'};">${w.ex_tag}</div>
+        <div class="daily-example-jp">${w.ex_jp}</div>
+        <div class="daily-example-zh">${w.ex_zh}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function markSeen(jp) {
+  addEncounter(jp);
+  renderDaily();
+  const todayJps = getTodayWords();
+  const seen = todayJps.filter(j => getEncounterCount(j) > 0).length;
+  document.getElementById('daily-subtitle').textContent =
+    `今日 ${todayJps.length} 個單字 · 已學習 ${seen} 個`;
+  showToast('已記錄！');
+}
+
+// ========== JLPT LIST PAGE ==========
+let jlptLevel = 'all';
+function setJlptLevel(lv, btn) {
+  jlptLevel = lv;
+  document.querySelectorAll('#page-jlpt .phase-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderJlpt();
+}
+
+function renderJlpt() {
+  const q = (document.getElementById('jlpt-search').value || '').toLowerCase();
+  let words = JLPT_WORDS;
+  if (jlptLevel !== 'all' && jlptLevel !== 'seen') words = words.filter(w => w.lv === jlptLevel);
+  if (jlptLevel === 'seen') words = words.filter(w => getEncounterCount(w.jp) > 0);
+  if (q) words = words.filter(w => w.jp.includes(q) || w.r.includes(q) || w.zh.includes(q));
+  document.getElementById('jlpt-count').textContent = `${words.length} 個單字`;
+
+  const list = document.getElementById('jlpt-list');
+  if (!words.length) { list.innerHTML = '<div style="color:var(--text3);font-size:13px;text-align:center;padding:20px 0;">沒有找到單字</div>'; return; }
+  list.innerHTML = words.map(w => {
+    const cnt = getEncounterCount(w.jp);
+    return `<div class="jlpt-row ${cnt>0?'encountered':''}">
+      <div class="jlpt-jp">${w.jp}</div>
+      <div class="jlpt-info">
+        <div class="jlpt-reading">${w.r}</div>
+        <div class="jlpt-zh">${w.zh}</div>
+      </div>
+      <div class="jlpt-right">
+        <span class="badge ${w.lv==='N5'?'badge-teal':w.lv==='N4'?'badge-amber':'badge-purple'}">${w.lv}</span>
+        ${cnt>0 ? `<span class="encounter-count">${'●'.repeat(Math.min(cnt,5))} ${cnt}次</span>` : '<span style="font-size:10px;color:var(--text3)">未遇過</span>'}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ========== KANA DATA ==========
+const KANA_GROUPS = [
+  {id:'hira-basic',label:'平假名 基本',jp:'あ行〜わ行',type:'hiragana',chars:[
+    {k:'あ',r:'a'},{k:'い',r:'i'},{k:'う',r:'u'},{k:'え',r:'e'},{k:'お',r:'o'},
+    {k:'か',r:'ka'},{k:'き',r:'ki'},{k:'く',r:'ku'},{k:'け',r:'ke'},{k:'こ',r:'ko'},
+    {k:'さ',r:'sa'},{k:'し',r:'shi'},{k:'す',r:'su'},{k:'せ',r:'se'},{k:'そ',r:'so'},
+    {k:'た',r:'ta'},{k:'ち',r:'chi'},{k:'つ',r:'tsu'},{k:'て',r:'te'},{k:'と',r:'to'},
+    {k:'な',r:'na'},{k:'に',r:'ni'},{k:'ぬ',r:'nu'},{k:'ね',r:'ne'},{k:'の',r:'no'},
+    {k:'は',r:'ha'},{k:'ひ',r:'hi'},{k:'ふ',r:'fu'},{k:'へ',r:'he'},{k:'ほ',r:'ho'},
+    {k:'ま',r:'ma'},{k:'み',r:'mi'},{k:'む',r:'mu'},{k:'め',r:'me'},{k:'も',r:'mo'},
+    {k:'や',r:'ya'},{k:'ゆ',r:'yu'},{k:'よ',r:'yo'},
+    {k:'ら',r:'ra'},{k:'り',r:'ri'},{k:'る',r:'ru'},{k:'れ',r:'re'},{k:'ろ',r:'ro'},
+    {k:'わ',r:'wa'},{k:'を',r:'wo'},{k:'ん',r:'n'},
+  ]},
+  {id:'hira-dakuten',label:'平假名 濁音',jp:'が〜ぽ',type:'hiragana',chars:[
+    {k:'が',r:'ga'},{k:'ぎ',r:'gi'},{k:'ぐ',r:'gu'},{k:'げ',r:'ge'},{k:'ご',r:'go'},
+    {k:'ざ',r:'za'},{k:'じ',r:'ji'},{k:'ず',r:'zu'},{k:'ぜ',r:'ze'},{k:'ぞ',r:'zo'},
+    {k:'だ',r:'da'},{k:'ぢ',r:'ji'},{k:'づ',r:'zu'},{k:'で',r:'de'},{k:'ど',r:'do'},
+    {k:'ば',r:'ba'},{k:'び',r:'bi'},{k:'ぶ',r:'bu'},{k:'べ',r:'be'},{k:'ぼ',r:'bo'},
+    {k:'ぱ',r:'pa'},{k:'ぴ',r:'pi'},{k:'ぷ',r:'pu'},{k:'ぺ',r:'pe'},{k:'ぽ',r:'po'},
+  ]},
+  {id:'hira-combo',label:'平假名 拗音',jp:'きゃ〜ぴょ',type:'hiragana',chars:[
+    {k:'きゃ',r:'kya'},{k:'きゅ',r:'kyu'},{k:'きょ',r:'kyo'},
+    {k:'しゃ',r:'sha'},{k:'しゅ',r:'shu'},{k:'しょ',r:'sho'},
+    {k:'ちゃ',r:'cha'},{k:'ちゅ',r:'chu'},{k:'ちょ',r:'cho'},
+    {k:'にゃ',r:'nya'},{k:'にゅ',r:'nyu'},{k:'にょ',r:'nyo'},
+    {k:'ひゃ',r:'hya'},{k:'ひゅ',r:'hyu'},{k:'ひょ',r:'hyo'},
+    {k:'みゃ',r:'mya'},{k:'みゅ',r:'myu'},{k:'みょ',r:'myo'},
+    {k:'りゃ',r:'rya'},{k:'りゅ',r:'ryu'},{k:'りょ',r:'ryo'},
+    {k:'ぎゃ',r:'gya'},{k:'ぎゅ',r:'gyu'},{k:'ぎょ',r:'gyo'},
+    {k:'じゃ',r:'ja'},{k:'じゅ',r:'ju'},{k:'じょ',r:'jo'},
+    {k:'びゃ',r:'bya'},{k:'びゅ',r:'byu'},{k:'びょ',r:'byo'},
+    {k:'ぴゃ',r:'pya'},{k:'ぴゅ',r:'pyu'},{k:'ぴょ',r:'pyo'},
+  ]},
+  {id:'kata-basic',label:'片假名 基本',jp:'ア行〜ワ行',type:'katakana',chars:[
+    {k:'ア',r:'a'},{k:'イ',r:'i'},{k:'ウ',r:'u'},{k:'エ',r:'e'},{k:'オ',r:'o'},
+    {k:'カ',r:'ka'},{k:'キ',r:'ki'},{k:'ク',r:'ku'},{k:'ケ',r:'ke'},{k:'コ',r:'ko'},
+    {k:'サ',r:'sa'},{k:'シ',r:'shi'},{k:'ス',r:'su'},{k:'セ',r:'se'},{k:'ソ',r:'so'},
+    {k:'タ',r:'ta'},{k:'チ',r:'chi'},{k:'ツ',r:'tsu'},{k:'テ',r:'te'},{k:'ト',r:'to'},
+    {k:'ナ',r:'na'},{k:'ニ',r:'ni'},{k:'ヌ',r:'nu'},{k:'ネ',r:'ne'},{k:'ノ',r:'no'},
+    {k:'ハ',r:'ha'},{k:'ヒ',r:'hi'},{k:'フ',r:'fu'},{k:'ヘ',r:'he'},{k:'ホ',r:'ho'},
+    {k:'マ',r:'ma'},{k:'ミ',r:'mi'},{k:'ム',r:'mu'},{k:'メ',r:'me'},{k:'モ',r:'mo'},
+    {k:'ヤ',r:'ya'},{k:'ユ',r:'yu'},{k:'ヨ',r:'yo'},
+    {k:'ラ',r:'ra'},{k:'リ',r:'ri'},{k:'ル',r:'ru'},{k:'レ',r:'re'},{k:'ロ',r:'ro'},
+    {k:'ワ',r:'wa'},{k:'ヲ',r:'wo'},{k:'ン',r:'n'},
+  ]},
+  {id:'kata-dakuten',label:'片假名 濁音',jp:'ガ〜ポ',type:'katakana',chars:[
+    {k:'ガ',r:'ga'},{k:'ギ',r:'gi'},{k:'グ',r:'gu'},{k:'ゲ',r:'ge'},{k:'ゴ',r:'go'},
+    {k:'ザ',r:'za'},{k:'ジ',r:'ji'},{k:'ズ',r:'zu'},{k:'ゼ',r:'ze'},{k:'ゾ',r:'zo'},
+    {k:'ダ',r:'da'},{k:'デ',r:'de'},{k:'ド',r:'do'},
+    {k:'バ',r:'ba'},{k:'ビ',r:'bi'},{k:'ブ',r:'bu'},{k:'ベ',r:'be'},{k:'ボ',r:'bo'},
+    {k:'パ',r:'pa'},{k:'ピ',r:'pi'},{k:'プ',r:'pu'},{k:'ペ',r:'pe'},{k:'ポ',r:'po'},
+  ]},
+  {id:'kata-combo',label:'片假名 拗音',jp:'キャ〜ピョ',type:'katakana',chars:[
+    {k:'キャ',r:'kya'},{k:'キュ',r:'kyu'},{k:'キョ',r:'kyo'},
+    {k:'シャ',r:'sha'},{k:'シュ',r:'shu'},{k:'ショ',r:'sho'},
+    {k:'チャ',r:'cha'},{k:'チュ',r:'chu'},{k:'チョ',r:'cho'},
+    {k:'ニャ',r:'nya'},{k:'ニュ',r:'nyu'},{k:'ニョ',r:'nyo'},
+    {k:'ヒャ',r:'hya'},{k:'ヒュ',r:'hyu'},{k:'ヒョ',r:'hyo'},
+    {k:'ミャ',r:'mya'},{k:'ミュ',r:'myu'},{k:'ミョ',r:'myo'},
+    {k:'リャ',r:'rya'},{k:'リュ',r:'ryu'},{k:'リョ',r:'ryo'},
+    {k:'ギャ',r:'gya'},{k:'ギュ',r:'gyu'},{k:'ギョ',r:'gyo'},
+    {k:'ジャ',r:'ja'},{k:'ジュ',r:'ju'},{k:'ジョ',r:'jo'},
+    {k:'ビャ',r:'bya'},{k:'ビュ',r:'byu'},{k:'ビョ',r:'byo'},
+    {k:'ピャ',r:'pya'},{k:'ピュ',r:'pyu'},{k:'ピョ',r:'pyo'},
+  ]},
+];
+
+// ========== KANA STATE ==========
+let kanaStats={};
+let selectedGroups=new Set(['hira-basic']);
+let quizMode='read';
+let weakFirst=false;
+let quizQueue=[],quizIdx=0,quizCorrect=0,quizWrong=0,quizMistakes=[];
+let awaitingNext=false,currentChar=null;
+
+function loadKanaStats(){try{kanaStats=JSON.parse(localStorage.getItem('kana_stats')||'{}');}catch(e){kanaStats={};}}
+function saveKanaStats(){try{localStorage.setItem('kana_stats',JSON.stringify(kanaStats));}catch(e){}}
+function getStat(k){return kanaStats[k]||{correct:0,wrong:0};}
+function recordResult(k,correct){const s=getStat(k);if(correct)s.correct++;else s.wrong++;kanaStats[k]=s;saveKanaStats();}
+
+function initKanaSetup(){loadKanaStats();renderGroupGrid();renderProgressDots();}
+
+function renderGroupGrid(){
+  document.getElementById('kana-group-grid').innerHTML=KANA_GROUPS.map(g=>{
+    const on=selectedGroups.has(g.id);
+    return `<div class="group-toggle ${on?'on':''}" onclick="toggleGroup('${g.id}')">
+      <div class="check-box" style="${on?'background:var(--accent);border-color:var(--accent)':''}"><div class="check-tick" style="${on?'display:block':'display:none'}"></div></div>
+      <div><div style="font-size:11px;color:${on?'var(--accent)':'var(--text2)'};margin-bottom:1px;">${g.label}</div>
+      <div style="font-family:var(--font-jp);font-size:13px;color:var(--text3);">${g.jp}</div></div>
+    </div>`;
+  }).join('');
+}
+
+function toggleGroup(id){
+  if(selectedGroups.has(id)){if(selectedGroups.size===1)return;selectedGroups.delete(id);}
+  else selectedGroups.add(id);
+  renderGroupGrid();renderProgressDots();
+}
+
+function renderProgressDots(){
+  const all=getSelectedChars();
+  const known=all.filter(c=>{const s=getStat(c.k);return s.correct>0&&s.correct>=s.wrong*2;}).length;
+  document.getElementById('kana-progress-badge').textContent=`${known}/${all.length}`;
+  document.getElementById('kana-progress-dots').innerHTML=all.map(c=>{
+    const s=getStat(c.k);const t=s.correct+s.wrong;
+    let color='var(--surface3)';
+    if(t>0){const rate=s.correct/t;color=rate>=0.8?'var(--accent2)':rate>=0.5?'var(--accent3)':'var(--accent4)';}
+    return `<div style="width:11px;height:11px;border-radius:3px;background:${color};flex-shrink:0;"></div>`;
+  }).join('');
+}
+
+function setMode(m,btn){quizMode=m;document.querySelectorAll('[id^="mode-btn-"]').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+function toggleWeak(){weakFirst=!weakFirst;document.getElementById('weak-toggle').classList.toggle('done',weakFirst);}
+function getSelectedChars(){const c=[];KANA_GROUPS.forEach(g=>{if(selectedGroups.has(g.id))c.push(...g.chars);});return c;}
+
+function shuffleWeighted(arr){
+  return [...arr].sort((a,b)=>{
+    if(!weakFirst)return Math.random()-0.5;
+    const sa=getStat(a.k),sb=getStat(b.k);
+    const ra=sa.correct+sa.wrong===0?0.5:sa.correct/(sa.correct+sa.wrong);
+    const rb=sb.correct+sb.wrong===0?0.5:sb.correct/(sb.correct+sb.wrong);
+    return ra-rb+(Math.random()-0.5)*0.3;
+  });
+}
+
+function startQuiz(){
+  const chars=getSelectedChars();if(!chars.length)return;
+  quizQueue=shuffleWeighted(chars);quizIdx=0;quizCorrect=0;quizWrong=0;quizMistakes=[];awaitingNext=false;
+  document.getElementById('kana-setup').style.display='none';
+  document.getElementById('kana-results').style.display='none';
+  document.getElementById('kana-active').style.display='block';
+  showQuestion();
+}
+
+function showQuestion(){
+  if(quizIdx>=quizQueue.length){showResults();return;}
+  currentChar=quizQueue[quizIdx];awaitingNext=false;
+  document.getElementById('quiz-counter').textContent=`${quizIdx+1}/${quizQueue.length}`;
+  document.getElementById('quiz-prog-fill').style.width=Math.round(quizIdx/quizQueue.length*100)+'%';
+  document.getElementById('quiz-score-disp').innerHTML=`<span style="color:var(--accent2)">✓${quizCorrect}</span> <span style="color:var(--accent4)">✗${quizWrong}</span>`;
+  document.getElementById('quiz-feedback').style.display='none';
+  if(quizMode==='read'){
+    document.getElementById('quiz-prompt-label').textContent='這個假名怎麼讀？';
+    document.getElementById('quiz-char').textContent=currentChar.k;
+    document.getElementById('quiz-options').style.display='none';
+    document.getElementById('quiz-input-wrap').style.display='block';
+    const inp=document.getElementById('quiz-input');inp.value='';inp.disabled=false;
+    setTimeout(()=>inp.focus(),100);
+  } else {
+    document.getElementById('quiz-prompt-label').textContent='選出正確的假名';
+    document.getElementById('quiz-char').textContent=currentChar.r;
+    document.getElementById('quiz-options').style.display='grid';
+    document.getElementById('quiz-input-wrap').style.display='none';
+    renderOptions();
+  }
+}
+
+function renderOptions(){
+  const all=getSelectedChars();
+  const pool=all.filter(c=>c.k!==currentChar.k).sort(()=>Math.random()-0.5).slice(0,3);
+  const opts=[...pool,currentChar].sort(()=>Math.random()-0.5);
+  document.getElementById('quiz-options').innerHTML=opts.map(o=>
+    `<button class="opt-btn" onclick="checkOption('${o.k}',this)"><div>${o.k}</div><div class="opt-rom">${o.r}</div></button>`
+  ).join('');
+}
+
+function checkOption(k,btn){
+  if(awaitingNext)return;awaitingNext=true;
+  const correct=k===currentChar.k;
+  recordResult(currentChar.k,correct);
+  document.querySelectorAll('.opt-btn').forEach(b=>{
+    b.disabled=true;
+    if(b===btn)b.classList.add(correct?'correct':'wrong');
+    if(b.querySelector('div').textContent===currentChar.k&&!correct)b.classList.add('correct');
+  });
+  showFeedback(correct);
+  if(correct)quizCorrect++;else{quizWrong++;quizMistakes.push(currentChar);}
+}
+
+function handleInputKey(e){if(e.key==='Enter')submitInput();}
+function submitInput(){
+  if(awaitingNext)return;
+  const inp=document.getElementById('quiz-input');
+  const ans=inp.value.trim().toLowerCase();if(!ans)return;
+  awaitingNext=true;inp.disabled=true;
+  const alts={shi:['si'],chi:['ti'],tsu:['tu'],fu:['hu'],ja:['jya'],ju:['jyu'],jo:['jyo'],sha:['sya'],shu:['syu'],sho:['syo']};
+  const correct=ans===currentChar.r||(alts[currentChar.r]||[]).includes(ans);
+  recordResult(currentChar.k,correct);
+  showFeedback(correct);
+  if(correct)quizCorrect++;else{quizWrong++;quizMistakes.push(currentChar);}
+}
+
+function showFeedback(correct){
+  const fb=document.getElementById('quiz-feedback');
+  fb.style.display='block';
+  fb.style.background=correct?'rgba(93,212,176,0.08)':'rgba(247,93,142,0.08)';
+  document.getElementById('feedback-result').style.color=correct?'var(--accent2)':'var(--accent4)';
+  document.getElementById('feedback-result').textContent=correct?'正確！':'答錯了';
+  document.getElementById('feedback-detail').textContent=`${currentChar.k} = ${currentChar.r}`;
+}
+
+function nextQuestion(){quizIdx++;showQuestion();}
+
+function showResults(){
+  document.getElementById('kana-active').style.display='none';
+  document.getElementById('kana-results').style.display='block';
+  const total=quizCorrect+quizWrong;
+  const pct=total?Math.round(quizCorrect/total*100):0;
+  document.getElementById('result-emoji').textContent=pct>=90?'🎉':pct>=70?'👍':pct>=50?'💪':'📚';
+  document.getElementById('result-score').textContent=`${quizCorrect}/${total} 正確 (${pct}%)`;
+  document.getElementById('result-sub').textContent=pct>=90?'非常好！':pct>=70?'不錯！再練幾次就穩了':'多練幾次，你會進步的';
+  document.getElementById('result-mistakes').innerHTML=quizMistakes.length?
+    '<div class="section-label" style="margin-bottom:6px;">錯誤的假名</div>'+
+    quizMistakes.map(c=>`<span style="display:inline-block;background:rgba(247,93,142,0.1);border:0.5px solid rgba(247,93,142,0.3);border-radius:6px;padding:5px 10px;margin:3px;font-family:var(--font-jp);">${c.k} <span style="font-family:var(--font-mono);font-size:10px;color:var(--text3)">${c.r}</span></span>`).join(''):'';
+  renderProgressDots();
+}
+
+function endQuiz(){
+  document.getElementById('kana-active').style.display='none';
+  document.getElementById('kana-results').style.display='none';
+  document.getElementById('kana-setup').style.display='block';
+  renderProgressDots();
+}
+
+// ---- KANA CHART ----
+let chartType='hiragana';
+function renderKanaChart(){
+  const groups=KANA_GROUPS.filter(g=>g.type===chartType);
+  document.getElementById('kana-chart-grid').innerHTML=groups.map(g=>{
+    const cells=g.chars.map(c=>{
+      const s=getStat(c.k);const t=s.correct+s.wrong;
+      let cls='';
+      if(t>0){const rate=s.correct/t;cls=rate>=0.75?'strong':rate<0.5?'weak':'';}
+      return `<div class="kana-cell ${cls}"><div class="kana-char">${c.k}</div><div class="kana-rom">${c.r}</div></div>`;
+    }).join('');
+    return `<div style="font-size:10px;font-weight:600;letter-spacing:0.1em;color:var(--text3);text-transform:uppercase;margin:12px 0 6px;">${g.label}</div>
+    <div style="display:flex;gap:5px;margin-bottom:5px;flex-wrap:wrap;">${cells}</div>`;
+  }).join('');
+}
+
+function showChart(type,btn){
+  chartType=type;
+  document.querySelectorAll('[id^="chart-"]').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');renderKanaChart();
+}
+
+function kanaTab(tab,btn){
+  document.getElementById('kana-tab-quiz').classList.remove('active');
+  document.getElementById('kana-tab-chart').classList.remove('active');
+  btn.classList.add('active');
+  document.getElementById('kana-quiz-section').style.display=tab==='quiz'?'block':'none';
+  document.getElementById('kana-chart-section').style.display=tab==='chart'?'block':'none';
+  if(tab==='chart')renderKanaChart();
+}
+
+// ========== TRACKER ==========
+const dims=['vocab','grammar','listen','speak'];
+const scores={vocab:0,grammar:0,listen:0,speak:0};
+
+function initMonthSel(){
+  const sel=document.getElementById('month-sel');
+  const now=new Date();
+  for(let i=0;i<18;i++){
+    const d=new Date(now.getFullYear(),now.getMonth()-i,1);
+    const val=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+    const label=d.getFullYear()+'年'+(d.getMonth()+1)+'月';
+    const opt=document.createElement('option');opt.value=val;opt.textContent=label;sel.appendChild(opt);
+  }
+  sel.addEventListener('change',loadEntry);
+}
+
+function renderStars(){
+  dims.forEach(dim=>{
+    const row=document.getElementById('stars-'+dim);row.innerHTML='';
+    for(let i=1;i<=5;i++){
+      const d=document.createElement('div');d.className='star-dot'+(i<=scores[dim]?' lit':'');
+      d.onclick=(v=>()=>{scores[v]=i;renderStars();})(dim);row.appendChild(d);
+    }
+    document.getElementById('sv-'+dim).textContent=scores[dim]?scores[dim]+'/5':'–';
+  });
+}
+
+function toggleCheck(el){el.classList.toggle('done');}
+
+function saveEntry(){
+  const month=document.getElementById('month-sel').value;
+  const note=document.getElementById('note').value;
+  const checks={};
+  document.querySelectorAll('.check-card[data-key]').forEach(c=>{checks[c.dataset.key]=c.classList.contains('done');});
+  try{localStorage.setItem('jp_'+month,JSON.stringify({scores:{...scores},checks,note}));}catch(e){}
+  showToast('已儲存 ✓');renderHistory();
+}
+
+function loadEntry(){
+  const month=document.getElementById('month-sel').value;
+  dims.forEach(d=>scores[d]=0);
+  document.querySelectorAll('.check-card[data-key]').forEach(c=>c.classList.remove('done'));
+  document.getElementById('note').value='';
+  try{
+    const raw=localStorage.getItem('jp_'+month);
+    if(raw){
+      const e=JSON.parse(raw);
+      if(e.scores)dims.forEach(d=>{if(e.scores[d])scores[d]=e.scores[d];});
+      if(e.checks)document.querySelectorAll('.check-card[data-key]').forEach(c=>{if(e.checks[c.dataset.key])c.classList.add('done');});
+      if(e.note)document.getElementById('note').value=e.note;
+    }
+  }catch(e){}
+  renderStars();
+}
+
+function renderHistory(){
+  const entries=[];
+  try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('jp_')){const month=k.replace('jp_','');entries.push({month,e:JSON.parse(localStorage.getItem(k))});}}}catch(e){}
+  entries.sort((a,b)=>b.month.localeCompare(a.month));
+  const hl=document.getElementById('history-list');
+  if(!entries.length){hl.innerHTML='<div style="color:var(--text3);font-size:12px;padding:6px 0">尚無記錄</div>';return;}
+  const colors=['#7c6af7','#5dd4b0','#f7a25d','#f75d8e'];
+  hl.innerHTML=entries.map(({month,e})=>{
+    const [y,m]=month.split('-');
+    const bars=dims.map((d,i)=>{const v=e.scores&&e.scores[d]?e.scores[d]:0;const h=v?Math.round(4+v*6):4;return `<div class="hist-bar" style="height:${h}px;background:${colors[i]};opacity:${v?0.4+v*0.12:0.15}"></div>`;}).join('');
+    return `<div class="history-row"><div class="hist-month">${y}/${m}</div><div class="hist-bars">${bars}</div><div class="hist-note">${e.note||'<span style="color:var(--text3)">無備注</span>'}</div></div>`;
+  }).join('');
+}
+
+// ========== PLAN PAGE ==========
+function switchPhase(id,btn){
+  document.querySelectorAll('.phase-content').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('#page-plan .phase-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('phase-'+id).classList.add('active');btn.classList.add('active');
+}
+
+// ========== NAVIGATION ==========
+function showPage(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');btn.classList.add('active');
+  if(id==='jlpt')renderJlpt();
+}
+
+// ========== TOAST ==========
+function showToast(msg){
+  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2000);
+}
+
+// ========== INIT ==========
+function setDate(){
+  const d=new Date();const days=['日','一','二','三','四','五','六'];
+  document.getElementById('today-date').textContent=`${d.getMonth()+1}/${d.getDate()}(${days[d.getDay()]})`;
+}
+
+setDate();
+renderDaily();
+initKanaSetup();
+initMonthSel();
+renderStars();
+loadEntry();
+renderHistory();
+</script>
+</body>
+</html>
